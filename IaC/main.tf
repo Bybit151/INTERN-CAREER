@@ -1,9 +1,9 @@
-resource "aws_vpc" "KaranVPC" {
+resource "aws_vpc" "KishanVPC" {
   cidr_block = var.cidr
 }
 
 resource "aws_subnet" "subnet1" {
-  vpc_id                  = aws_vpc.KaranVPC.id
+  vpc_id                  = aws_vpc.KishanVPC.id
   cidr_block              = var.subnet1Cidr
   availability_zone       = var.az
   map_public_ip_on_launch = true
@@ -14,7 +14,7 @@ resource "aws_subnet" "subnet1" {
 }
 
 resource "aws_subnet" "subnet2" {
-  vpc_id                  = aws_vpc.KaranVPC.id
+  vpc_id                  = aws_vpc.KishanVPC.id
   cidr_block              = var.subnet2Cidr
   availability_zone       = var.az1
   map_public_ip_on_launch = true
@@ -24,7 +24,7 @@ resource "aws_subnet" "subnet2" {
 }
 
 resource "aws_internet_gateway" "igateway" {
-  vpc_id = aws_vpc.KaranVPC.id
+  vpc_id = aws_vpc.KishanVPC.id
   tags = {
     name = "internetG"
   }
@@ -32,13 +32,13 @@ resource "aws_internet_gateway" "igateway" {
 
 # resource "aws_internet_gateway_attachment" "igwa" {
 
-#     vpc_id = aws_vpc.KaranVPC.id
+#     vpc_id = aws_vpc.KishanVPC.id
 #     internet_gateway_id = aws_internet_gateway.igateway.id
 #   }
 
 
 resource "aws_route_table" "myRT" {
-  vpc_id = aws_vpc.KaranVPC.id
+  vpc_id = aws_vpc.KishanVPC.id
   tags = {
     name = "my_custom_rt"
   }
@@ -63,7 +63,7 @@ resource "aws_route_table_association" "RTassociate2" {
 
 resource "aws_security_group" "lbSG" {
   name   = "loadbalancerSG"
-  vpc_id = aws_vpc.KaranVPC.id
+  vpc_id = aws_vpc.KishanVPC.id
   ingress {
     description = "HTTP "
     from_port   = 80
@@ -92,12 +92,12 @@ resource "aws_security_group" "lbSG" {
 
 
 
-resource "aws_s3_bucket" "KaranS3Bucket" {
-  bucket = "karansterraform1063536"
+resource "aws_s3_bucket" "KishanS3Bucket" {
+  bucket = "kishansterraform1063536"
 }
 
-# resource "aws_s3_bucket_public_access_block" "KaranS3Bucket1" {
-#   bucket = "aws_s3_bucket.KaranS3Bucket.id"
+# resource "aws_s3_bucket_public_access_block" "KishanS3Bucket1" {
+#   bucket = "aws_s3_bucket.KishanS3Bucket.id"
 
 #   block_public_acls       = false
 #   block_public_policy     = false
@@ -105,14 +105,14 @@ resource "aws_s3_bucket" "KaranS3Bucket" {
 #   restrict_public_buckets = false
 # }
 
-# resource "aws_s3_bucket_acl" "KaranS3Bucket2" {
+# resource "aws_s3_bucket_acl" "KishanS3Bucket2" {
 
-#   bucket = aws_s3_bucket.KaranS3Bucket.id
+#   bucket = aws_s3_bucket.KishanS3Bucket.id
 #   acl    = "public-read"
 # }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-0e001c9271cf7f3b9"
+  ami                    = "ami-0a0e5d9c7acc336f1"
   instance_type          = "t2.micro"
   key_name               = "Project2"
   vpc_security_group_ids = [aws_security_group.lbSG.id]
@@ -125,7 +125,7 @@ resource "aws_instance" "web" {
 }
 
 resource "aws_instance" "DB" {
-  ami                    = "ami-0e001c9271cf7f3b9"
+  ami                    = "ami-0a0e5d9c7acc336f1"
   instance_type          = "t2.micro"
   key_name               = "Project2"
   vpc_security_group_ids = [aws_security_group.lbSG.id]
@@ -155,7 +155,7 @@ resource "aws_lb_target_group" "mylbtg" {
   name        = "myALBTG"
   port        = 80
   protocol    = "HTTP"
-  vpc_id      = aws_vpc.KaranVPC.id
+  vpc_id      = aws_vpc.KishanVPC.id
   target_type = "instance"
   health_check {
     path = "/"
